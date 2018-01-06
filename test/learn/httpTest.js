@@ -1,4 +1,4 @@
-var http = require('http');
+var http = require('test/learn/http');
 var url = require('url');
 var dt = require('./myfirstmodule');
 http.createServer(function (req, res) {
