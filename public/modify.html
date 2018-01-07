@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="modify">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+    <script src="/angular/angular.min.js"></script>
+    <script>
+        (function (window) {
+            window.angular.module('modify', [])
+                .config(function ($locationProvider) {
+                    $locationProvider.html5Mode({enabled: true, requireBase: false});
+                })
+                .controller('modifyCtrl', function ($scope, $http, $location) {
+                    var id = $location.search().id;
+                    $http.get('/users/' + id).then(function (response) {
+                        var user = response.data.data;
+                        $scope.username = user.username;
+                        $scope.password = user.password;
+                    }, function (err) {
+                        alert(err);
+                    });
+                    $scope.doModify = function () {
+                        var data = JSON.stringify({
+                            username: $scope.username,
+                            password: $scope.password
+                        });
+                        $http.put("/users/" + id, data)
+                            .then(function (res) {
+                                $scope.msg = res.data.success ? '修改成功' : '修改失败';
+                            }, function (err) {
+                                $scope.msg = err.data;
+                            });
+                    }
+                });
+        })(window);
+    </script>
+</head>
+<body ng-controller="modifyCtrl">
+<div align="center">
+    <a href="/index.html" target="_self">home</a>
+</div>
+<table align="center" border="1">
+    <tr>
+        <td><label for="username">username:</label></td>
+        <td><input id="username" ng-model="username"/></td>
+    </tr>
+    <tr>
+        <td><label for="password">password:</label></td>
+        <td><input type="password" id="password" ng-model="password"/></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center"><input type="button" value="modify" ng-click="doModify()"/></td>
+    </tr>
+</table>
+<div align="center">{{msg}}</div>
+</body>
+</html>

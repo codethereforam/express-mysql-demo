@@ -1,11 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html ng-app="list">
 <head>
     <meta charset="UTF-8">
     <title>index</title>
-    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <script src="/angular/angular.min.js"></script>
+    <script>
+        (function (window) {
+            window.angular.module('list', [])
+                .controller('listCtrl', function ($scope, $http) {
+                    $http.get('/users').then(function (response) {
+                        $scope.users = response.data.data;
+                    }, function (err) {
+                        alert(err);
+                    });
+                    $scope.doDel = function (user) {
+                        $http.delete("/users/" + user.id)
+                            .then(function () {
+                                $scope.users.splice($scope.users.indexOf(user), 1);
+                            }, function (err) {
+                                alert(err);
+                            });
+                    };
+                    $scope.doPatch = function (id) {
+                        var data = JSON.stringify({
+                            password: document.getElementById("pwd" + id).value
+                        });
+                        $http.patch("/users/" + id, data)
+                            .then(function (response) {
+                            }, function (err) {
+                                alert(err);
+                            });
+                    };
+                });
+        })(window);
+    </script>
 </head>
 <body>
-index
+<div align="center">
+    <a href="/add.html">add</a>
+</div>
+<table align="center" border="1" ng-controller="listCtrl">
+    <tr>
+        <th>ID</th>
+        <th>username</th>
+        <th>password</th>
+        <th>manage</th>
+    </tr>
+    <tr ng-repeat="user in users">
+        <td>{{user.id}}</td>
+        <td><a href="/detail.html?id={{user.id}}">{{user.username}}</a></td>
+        <td><input ng-value="user.password" id="pwd{{user.id}}" ng-blur="doPatch(user.id)"/></td>
+        <td><a href="/modify.html?id={{user.id}}">modify</a> <a href="javascript:void(0)" ng-click="doDel(user)">DEL</a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

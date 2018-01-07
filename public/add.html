@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="add">
+<head>
+    <meta charset="UTF-8">
+    <title>add</title>
+    <script src="/angular/angular.min.js"></script>
+    <script>
+        (function (window) {
+            window.angular.module('add', [])
+                .controller('addCtrl', function ($scope, $http) {
+                    $scope.doAdd = function () {
+                        var data = JSON.stringify({
+                            username: $scope.username,
+                            password: $scope.password
+                        });
+                        $http.post("/users", data)
+                            .then(function (res) {
+                                if(res.data.success) {
+                                    $scope.msg = '添加成功';
+                                } else {
+                                    $scope.msg = '添加失败';
+                                }
+                            }, function (err) {
+                                $scope.msg = err.data;
+                            });
+                    }
+                });
+        })(window);
+    </script>
+</head>
+<body ng-controller="addCtrl">
+<div align="center">
+    <a href="/index.html">home</a>
+</div>
+<table align="center" border="1">
+    <tr>
+        <td><label for="username">username:</label></td>
+        <td><input id="username" ng-model="username"/></td>
+    </tr>
+    <tr>
+        <td><label for="password">password:</label></td>
+        <td><input type="password" id="password" ng-model="password"/></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center"><input type="button" value="add" ng-click="doAdd()"/></td>
+    </tr>
+</table>
+<div align="center">{{msg}}</div>
+</body>
+</html>

@@ -35,7 +35,7 @@ router.post('/', function (req, res, next) {
     var user = req.body;
     console.log(user);
     userDAO.add(user, function (success) {
-        var result =  $result.createResult(success, "add success");
+        var result =  $result.createResult(success, null);
         res.json(result);
     });
 });

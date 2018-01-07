@@ -1,0 +1,41 @@
+<!doctype html>
+<html ng-app="detail">
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+    <script src="/angular/angular.min.js"></script>
+    <script>
+        (function (window) {
+            window.angular.module('detail', [])
+                .config(function ($locationProvider) {
+                    $locationProvider.html5Mode({enabled: true, requireBase: false});
+                })
+                .controller('detailCtrl', function ($scope, $http, $location) {
+                    var id = $location.search().id;
+                    $http.get('/users/' + id).then(function (response) {
+                        $scope.user = response.data.data;
+                    }, function (err) {
+                        alert(err);
+                    });
+                });
+        })(window);
+    </script>
+</head>
+<body>
+<div align="center">
+    <a href="/index.html" target="_self">home</a>
+</div>
+<table align="center" border="1" ng-controller="detailCtrl">
+    <tr>
+        <th>ID</th>
+        <th>username</th>
+        <th>password</th>
+    </tr>
+    <tr>
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.password}}</td>
+    </tr>
+</table>
+</body>
+</html>
