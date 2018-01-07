@@ -1,6 +1,6 @@
 var userSqlMap = {
     add: 'insert into user(username, password) values(?, ?)',
-    delete: '',
+    deleteById: 'delete from user where id = ?',
     update: '',
     list: 'select * from user',
     getById: 'select * from user where id = ?'

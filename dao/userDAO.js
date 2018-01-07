@@ -29,5 +29,14 @@ module.exports = {
                 connection.release();
             });
         });
+    },
+    deleteById: function (id, callback) {
+        pool.getConnection(function (err, connection) {
+            connection.query(userSqlMap.deleteById, id, function (err, result) {
+                console.log(result);
+                callback(result.affectedRows > 0);
+                connection.release();
+            });
+        });
     }
 };
