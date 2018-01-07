@@ -38,5 +38,13 @@ module.exports = {
                 connection.release();
             });
         });
+    },
+    update: function (user, callback) {
+        pool.getConnection(function (err, connection) {
+            connection.query(userSqlMap.update, [user.username, user.password, user.id], function (err, result) {
+                callback(result.affectedRows > 0);
+                connection.release();
+            });
+        });
     }
 };

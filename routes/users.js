@@ -40,4 +40,16 @@ router.post('/', function (req, res, next) {
     });
 });
 
+/* update users */
+router.put('/:id', function (req, res, next) {
+    console.log('update users called');
+    var user = req.body;
+    user.id = req.params.id;
+    console.log(user);
+    userDAO.update(user, function (success) {
+        var result =  $result.createResult(success, null);
+        res.json(result);
+    });
+});
+
 module.exports = router;
