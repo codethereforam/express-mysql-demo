@@ -24,8 +24,8 @@ module.exports = {
     getById: function (id, callback) {
         pool.getConnection(function (err, connection) {
             connection.query(userSqlMap.getById, id, function (err, result) {
-                console.log(result);
-                callback(result);
+                console.log(result[0]);
+                callback(result[0]);
                 connection.release();
             });
         });

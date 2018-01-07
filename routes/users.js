@@ -52,4 +52,24 @@ router.put('/:id', function (req, res, next) {
     });
 });
 
+/* patch users */
+router.patch('/:id', function (req, res, next) {
+    console.log('patch users called');
+    userDAO.getById(req.params.id, function (user) {
+        var username = req.body.username;
+        if(username) {
+            user.username = username;
+        }
+        var password = req.body.password;
+        if(password) {
+            user.password = password;
+        }
+        console.log(user);
+        userDAO.update(user, function (success) {
+            var result =  $result.createResult(success, null);
+            res.json(result);
+        });
+    });
+});
+
 module.exports = router;
