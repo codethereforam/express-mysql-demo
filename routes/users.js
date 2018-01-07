@@ -3,9 +3,12 @@ var router = express.Router();
 var userDAO = require('../dao/userDAO');
 var $result = require('../model/result');
 
-/* GET users listing. */
+/* list users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    console.log('list users called');
+    userDAO.list(function (result) {
+        res.json($result.createResult(true, result));
+    });
 });
 
 /* add users listing. */

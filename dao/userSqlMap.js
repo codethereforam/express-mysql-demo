@@ -2,7 +2,7 @@ var userSqlMap = {
     add: 'insert into user(username, password) values(?, ?)',
     delete: '',
     update: '',
-    list: '',
+    list: 'select * from user',
     selectById: ''
 };
 

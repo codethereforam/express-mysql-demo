@@ -14,7 +14,12 @@ module.exports = {
         });
     },
 
-    delete: function () {
-
+    list: function (callback) {
+        pool.getConnection(function (err, connection) {
+            connection.query(userSqlMap.list, function (err, result) {
+                callback(result);
+                connection.release();
+            });
+        });
     }
 };
