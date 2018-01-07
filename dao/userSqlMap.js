@@ -3,7 +3,7 @@ var userSqlMap = {
     delete: '',
     update: '',
     list: 'select * from user',
-    selectById: ''
+    getById: 'select * from user where id = ?'
 };
 
 module.exports = userSqlMap;

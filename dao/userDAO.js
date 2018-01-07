@@ -13,10 +13,18 @@ module.exports = {
             });
         });
     },
-
     list: function (callback) {
         pool.getConnection(function (err, connection) {
             connection.query(userSqlMap.list, function (err, result) {
+                callback(result);
+                connection.release();
+            });
+        });
+    },
+    getById: function (id, callback) {
+        pool.getConnection(function (err, connection) {
+            connection.query(userSqlMap.getById, id, function (err, result) {
+                console.log(result);
                 callback(result);
                 connection.release();
             });

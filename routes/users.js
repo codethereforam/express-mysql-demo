@@ -3,7 +3,7 @@ var router = express.Router();
 var userDAO = require('../dao/userDAO');
 var $result = require('../model/result');
 
-/* list users listing. */
+/* list users */
 router.get('/', function(req, res, next) {
     console.log('list users called');
     userDAO.list(function (result) {
@@ -11,7 +11,16 @@ router.get('/', function(req, res, next) {
     });
 });
 
-/* add users listing. */
+/* get user */
+router.get('/:id', function(req, res, next) {
+    var id = req.params.id;
+    console.log('get user called, id: ' + id);
+    userDAO.getById(id, function (result) {
+        res.json($result.createResult(true, result));
+    });
+});
+
+/* add users */
 router.post('/', function (req, res, next) {
     console.log('post users called');
     var user = req.body;
