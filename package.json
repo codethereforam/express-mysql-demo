@@ -2,6 +2,9 @@
   "name": "learn-node.js",
   "version": "0.0.0",
   "private": true,
+  "config": {
+    "port": "8888"
+  },
   "scripts": {
     "start": "node ./bin/www"
   },
