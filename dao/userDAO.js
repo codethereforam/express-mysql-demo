@@ -1,8 +1,8 @@
 var mysql = require('mysql');
 var mysqlConf = require('../conf/mysqlConf');
-var dbUtils = require('../utils/dbUtils');
+var dbUtil = require('../util/dbUtil');
 var userSqlMap = require('./userSqlMap');
-var pool = mysql.createPool(dbUtils.extend({}, mysqlConf.mysql));
+var pool = mysql.createPool(dbUtil.extend({}, mysqlConf.mysql));
 
 module.exports = {
     add: function (user, callback) {
