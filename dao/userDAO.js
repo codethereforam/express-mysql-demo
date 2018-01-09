@@ -1,49 +1,38 @@
 var mysql = require('mysql');
 var mysqlConf = require('../conf/mysqlConf');
-var dbUtil = require('../util/dbUtil');
 var userSqlMap = require('./userSqlMap');
-var pool = mysql.createPool(dbUtil.extend({}, mysqlConf.mysql));
+var pool = mysql.createPool(mysqlConf.mysql);
 
 module.exports = {
     add: function (user, callback) {
-        pool.getConnection(function (err, connection) {
-            connection.query(userSqlMap.add, [user.username, user.password], function (err, result) {
-                callback(result.affectedRows > 0);
-                connection.release();
-            });
+        pool.query(userSqlMap.add, [user.username, user.password], function (error, result) {
+            if (error) throw error;
+            callback(result.affectedRows > 0);
         });
     },
     list: function (callback) {
-        pool.getConnection(function (err, connection) {
-            connection.query(userSqlMap.list, function (err, result) {
-                callback(result);
-                connection.release();
-            });
+        pool.query(userSqlMap.list, function (error, result) {
+            if (error) throw error;
+            callback(result);
         });
     },
     getById: function (id, callback) {
-        pool.getConnection(function (err, connection) {
-            connection.query(userSqlMap.getById, id, function (err, result) {
-                console.log(result[0]);
-                callback(result[0]);
-                connection.release();
-            });
+        pool.query(userSqlMap.getById, id, function (error, result) {
+            if (error) throw error;
+            console.log(result[0]);
+            callback(result[0]);
         });
     },
     deleteById: function (id, callback) {
-        pool.getConnection(function (err, connection) {
-            connection.query(userSqlMap.deleteById, id, function (err, result) {
-                callback(result.affectedRows > 0);
-                connection.release();
-            });
+        pool.query(userSqlMap.deleteById, id, function (error, result) {
+            if (error) throw error;
+            callback(result.affectedRows > 0);
         });
     },
     update: function (user, callback) {
-        pool.getConnection(function (err, connection) {
-            connection.query(userSqlMap.update, [user.username, user.password, user.id], function (err, result) {
-                callback(result.affectedRows > 0);
-                connection.release();
-            });
+        pool.query(userSqlMap.update, [user.username, user.password, user.id], function (error, result) {
+            if (error) throw error;
+            callback(result.affectedRows > 0);
         });
     }
 };
