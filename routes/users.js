@@ -4,7 +4,7 @@ var userDAO = require('../dao/userDAO');
 var result = require('../model/result');
 
 /* list users */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     console.log('list users called');
     userDAO.list(function (users) {
         res.json(result.createResult(true, users));
@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* get user */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
     var id = req.params.id;
     console.log('get user called, id: ' + id);
     userDAO.getById(id, function (user) {
@@ -21,7 +21,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 /* delete user */
-router.delete('/:id', function (req, res, next) {
+router.delete('/:id', function (req, res) {
     var id = req.params.id;
     console.log('delete user called, id=' + id);
     userDAO.deleteById(id, function (success) {
@@ -30,7 +30,7 @@ router.delete('/:id', function (req, res, next) {
 });
 
 /* add users */
-router.post('/', function (req, res, next) {
+router.post('/', function (req, res) {
     console.log('post users called');
     var user = req.body;
     console.log(user);
@@ -41,7 +41,7 @@ router.post('/', function (req, res, next) {
 });
 
 /* update users */
-router.put('/:id', function (req, res, next) {
+router.put('/:id', function (req, res) {
     console.log('update users called');
     var user = req.body;
     user.id = req.params.id;
@@ -53,7 +53,7 @@ router.put('/:id', function (req, res, next) {
 });
 
 /* patch users */
-router.patch('/:id', function (req, res, next) {
+router.patch('/:id', function (req, res) {
     console.log('patch users called');
     userDAO.getById(req.params.id, function (user) {
         var username = req.body.username;
